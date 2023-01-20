@@ -46,12 +46,4 @@ const server = http.createServer(app);
 
 server.listen(8080,()=>{
     console.info("app running on port 8080")
-})
-
-
-
-        /*const decodedBuffer = Buffer.from(pair[1] as any, 'utf8');
-        const decodedString = decodedBuffer.toString();
-        let timestamp = Date.now();
-        let imageName = `image-${timestamp}.jpeg`;
-        let imagePath = `images/${imageName}`;*/
+});
