@@ -42,6 +42,16 @@ app.post('/images',upload.array("images"),async (req,res)=>{
     res.json(jsonObj);
 })
 
+app.post('/image',upload.single("image"), async (req,res)=>{
+    console.log(req.headers)
+    console.log(req.body.data)
+
+    let timestamp = Date.now();
+    const binaryData = Buffer.from(req.body.image as any, 'base64');
+    console.log(binaryData)
+    fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
+})
+
 const server = http.createServer(app);
 
 server.listen(8080,()=>{
