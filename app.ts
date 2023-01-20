@@ -24,7 +24,7 @@ const upload=multer({
     limits:{fieldSize: 100 * 1024 * 1024},
 });
 
-app.post('/image',upload.array("images"),async (req,res)=>{
+app.post('/images',upload.array("images"),async (req,res)=>{
     console.log("RECEIVED");
     let imagemap=Object.entries(req.body); 
     imagemap.forEach((pair)=>{
