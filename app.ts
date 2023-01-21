@@ -5,6 +5,7 @@ import multer from "multer";
 import fs from 'fs';
 import service from './imageService';
 
+
 const app=express();
 
 app.set('PORT', 8080);
@@ -25,8 +26,25 @@ const upload=multer({
     limits:{fieldSize: 100 * 1024 * 1024},
 });
 
-app.post('/images',upload.array("images"), (req,res)=>{
+app.post('/images',upload.single("image"), (req,res)=>{
     console.log("RECEIVED");
+    let obj=JSON.parse(req.body.data);
+    console.log(obj.limit);
+    let timestamp = Date.now();
+    const binaryData = Buffer.from(req.body.image as any, 'base64');
+    console.log(binaryData)
+    fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
+
+    const imagesFolder = 'images/';
+    const imageFiles = fs.readdirSync(imagesFolder).filter(file => file.endsWith('.jpg'));
+    
+    if(imageFiles.length==obj.limit as number) {
+        service.process().then(()=>{
+            console.log("finished");
+        });
+    }
+
+    /*
     let imagemap=Object.entries(req.body); 
     imagemap.forEach((pair)=>{
         console.log(pair[0]);
@@ -35,10 +53,10 @@ app.post('/images',upload.array("images"), (req,res)=>{
         console.log(binaryData)
         fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
     }) 
-
+    /*
     service.process().then(()=>{
         
-    });
+    });*/
 
     const jsonObj={
         "id":"78giug87t56ertfhg",
@@ -62,3 +80,5 @@ const server = http.createServer(app);
 server.listen(8080,()=>{
     console.info("app running on port 8080")
 });
+
+
