@@ -3,6 +3,7 @@ import http from 'http';
 import bodyParser from 'body-parser';
 import multer from "multer";
 import fs from 'fs';
+import service from './imageService';
 
 const app=express();
 
@@ -24,7 +25,7 @@ const upload=multer({
     limits:{fieldSize: 100 * 1024 * 1024},
 });
 
-app.post('/images',upload.array("images"),async (req,res)=>{
+app.post('/images',upload.array("images"), (req,res)=>{
     console.log("RECEIVED");
     let imagemap=Object.entries(req.body); 
     imagemap.forEach((pair)=>{
@@ -34,6 +35,10 @@ app.post('/images',upload.array("images"),async (req,res)=>{
         console.log(binaryData)
         fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
     }) 
+
+    service.process().then(()=>{
+        
+    });
 
     const jsonObj={
         "id":"78giug87t56ertfhg",
