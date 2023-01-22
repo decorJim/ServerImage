@@ -8,7 +8,7 @@ import service from './imageService';
 
 const app=express();
 
-app.set('PORT', 8080);
+app.set('PORT',process.env.PORT || 8080);
 
 app.use((req, res, next) => {   // must be here to make http request work without access problems
     res.header('Access-Control-Allow-Origin', '*');
@@ -63,8 +63,8 @@ app.post('/image',upload.single("image"), async (req,res)=>{
 
 const server = http.createServer(app);
 
-server.listen(8080,()=>{
-    console.info("app running on port 8080")
+server.listen(process.env.PORT || 8080,()=>{
+    console.log(`Server is running localhost:${app.get('PORT')}`);
 });
 
 
