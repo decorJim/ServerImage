@@ -6,7 +6,7 @@ class imageService {
     constructor() {
 
     } 
-    
+
    async process(scriptPath: string) {
     const pythonProcess = spawn('python3', [scriptPath]);
 

@@ -1,9 +1,10 @@
 import express from 'express';
 import http from 'http';
-import bodyParser from 'body-parser';
+import bodyParser, { json } from 'body-parser';
 import multer from "multer";
 import fs from 'fs';
 import service from './imageService';
+import path from 'path';
 
 
 const app=express();
@@ -26,7 +27,7 @@ const upload=multer({
     limits:{fieldSize: 100 * 1024 * 1024},
 });
 
-app.post('/images',upload.single("image"), (req,res)=>{
+app.post('/images',upload.single("image"), async (req,res)=>{
     console.log("RECEIVED");
     let obj=JSON.parse(req.body.data);
     console.log(obj.limit);
@@ -38,17 +39,18 @@ app.post('/images',upload.single("image"), (req,res)=>{
     const imagesFolder = 'images/';
     const imageFiles = fs.readdirSync(imagesFolder).filter(file => file.endsWith('.jpg'));
     
-    if(imageFiles.length==obj.limit as number) {
-        service.process("script.py").then(()=>{
-            console.log("finished");
-        });
-    }
+    let num:number=imageFiles.length;
 
     const jsonObj={
         "id":"78giug87t56ertfhg",
-        "msg":"response from server"
+        "msg":num,
+        "state":"ongoing"
     }
-    res.json(jsonObj);
+
+    if(imageFiles.length==obj.limit as number) {
+        service.process("script.py");
+    }
+    return res.json(jsonObj)
 })
 
 app.post('/image',upload.single("image"), async (req,res)=>{
@@ -71,6 +73,35 @@ app.get('/results',(req,res)=>{
         images.push(base64);
     }
     res.send(images);
+})
+
+app.post('/delete',(req,res)=>{
+    const imagesFolder = 'images/';
+    const resultsFolder = 'results/';
+
+    // Delete all files in the images folder
+    fs.readdir(imagesFolder, (err, files) => {
+        if (err) throw err;
+        for (const file of files) {
+           fs.unlink(path.join(imagesFolder, file), err => {
+               if (err) throw err;
+           });
+        }
+    });
+
+    // Delete all files in the results folder
+    fs.readdir(resultsFolder, (err, files) => {
+       if (err) throw err;
+          for (const file of files) {
+             fs.unlink(path.join(resultsFolder, file), err => {
+               if (err) throw err;
+              });
+          }
+    });
+    const jsonObj={
+        "msg":"deleted sucess !"
+    }
+    res.json(jsonObj);
 })
 
 const server = http.createServer(app);
