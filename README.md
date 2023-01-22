@@ -6,5 +6,5 @@ must add body parser for code to access req.body
 
 # Python script
 to run python script
-check python version if 3 then spawn first argument is python3
+check python version if 3 then spawn first argument is python3 in imageService process function
 
