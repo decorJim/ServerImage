@@ -61,6 +61,18 @@ app.post('/image',upload.single("image"), async (req,res)=>{
     fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
 })
 
+app.get('/results',(req,res)=>{
+    const imagesFolder = 'results/';
+    const imageFiles = fs.readdirSync(imagesFolder).filter(file => file.endsWith('.jpg'));
+    const images = [];
+    for (let i = 0; i < imageFiles.length; i++) {
+        const file = fs.readFileSync(`${imagesFolder}/${imageFiles[i]}`);
+        const base64 = Buffer.from(file).toString('base64');
+        images.push(base64);
+    }
+    res.send(images);
+})
+
 const server = http.createServer(app);
 
 server.listen(process.env.PORT || 8080,()=>{
