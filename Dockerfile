@@ -6,6 +6,8 @@ COPY . .
 
 RUN npm install
 
+RUN pip3 install pillow
+
 CMD ["npm", "start"]
 
 
