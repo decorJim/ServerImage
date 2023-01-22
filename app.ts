@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require('express');
 import http from 'http';
 import bodyParser, { json } from 'body-parser';
 import multer from "multer";
@@ -11,7 +11,7 @@ const app=express();
 
 app.set('PORT',process.env.PORT || 8080);
 
-app.use((req, res, next) => {   // must be here to make http request work without access problems
+app.use((req: any, res: { header: (arg0: string, arg1: string) => void; }, next: () => void) => {   // must be here to make http request work without access problems
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
     next();
@@ -27,7 +27,7 @@ const upload=multer({
     limits:{fieldSize: 100 * 1024 * 1024},
 });
 
-app.post('/images',upload.single("image"), async (req,res)=>{
+app.post('/images',upload.single("image"), async (req: { body: { data: string; image: any; }; },res: { json: (arg0: { id: string; msg: number; state: string; }) => any; })=>{
     console.log("RECEIVED");
     let obj=JSON.parse(req.body.data);
     console.log(obj.limit);
@@ -53,7 +53,7 @@ app.post('/images',upload.single("image"), async (req,res)=>{
     return res.json(jsonObj)
 })
 
-app.post('/image',upload.single("image"), async (req,res)=>{
+app.post('/image',upload.single("image"), async (req: { headers: any; body: { data: any; image: any; }; },res: any)=>{
     console.log(req.headers)
     console.log(req.body.data)
 
@@ -63,7 +63,7 @@ app.post('/image',upload.single("image"), async (req,res)=>{
     fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
 })
 
-app.get('/results',(req,res)=>{
+app.get('/results',(req: any,res: { send: (arg0: string[]) => void; })=>{
     const imagesFolder = 'results/';
     const imageFiles = fs.readdirSync(imagesFolder).filter(file => file.endsWith('.jpg'));
     const images = [];
@@ -75,7 +75,7 @@ app.get('/results',(req,res)=>{
     res.send(images);
 })
 
-app.post('/delete',(req,res)=>{
+app.post('/delete',(req: any,res: { json: (arg0: { msg: string; }) => void; })=>{
     const imagesFolder = 'images/';
     const resultsFolder = 'results/';
 

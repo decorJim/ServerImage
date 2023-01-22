@@ -1,6 +1,4 @@
 import { spawn } from 'child_process';
-import * as fs from 'fs';
-const child_process = require('child_process');
 
 class imageService {
     constructor() {
