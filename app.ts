@@ -1,10 +1,10 @@
 const express = require('express');
 const http = require('http');
-import bodyParser, { json } from 'body-parser';
-import multer from "multer";
-import fs from 'fs';
-import service from './imageService';
-import path from 'path';
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const fs = require('fs');
+import service from "./imageService";
+const path = require('path');
 
 
 const app=express();
@@ -37,7 +37,7 @@ app.post('/images',upload.single("image"), async (req: { body: { data: string; i
     fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
 
     const imagesFolder = 'images/';
-    const imageFiles = fs.readdirSync(imagesFolder).filter(file => file.endsWith('.jpg'));
+    const imageFiles = fs.readdirSync(imagesFolder).filter((file: string) => file.endsWith('.jpg'));
     
     let num:number=imageFiles.length;
 
@@ -65,7 +65,7 @@ app.post('/image',upload.single("image"), async (req: { headers: any; body: { da
 
 app.get('/results',(req: any,res: { send: (arg0: string[]) => void; })=>{
     const imagesFolder = 'results/';
-    const imageFiles = fs.readdirSync(imagesFolder).filter(file => file.endsWith('.jpg'));
+    const imageFiles = fs.readdirSync(imagesFolder).filter((file: string) => file.endsWith('.jpg'));
     const images = [];
     for (let i = 0; i < imageFiles.length; i++) {
         const file = fs.readFileSync(`${imagesFolder}/${imageFiles[i]}`);
@@ -80,20 +80,20 @@ app.post('/delete',(req: any,res: { json: (arg0: { msg: string; }) => void; })=>
     const resultsFolder = 'results/';
 
     // Delete all files in the images folder
-    fs.readdir(imagesFolder, (err, files) => {
+    fs.readdir(imagesFolder, (err: any, files: any) => {
         if (err) throw err;
         for (const file of files) {
-           fs.unlink(path.join(imagesFolder, file), err => {
+           fs.unlink(path.join(imagesFolder, file), (err: any) => {
                if (err) throw err;
            });
         }
     });
 
     // Delete all files in the results folder
-    fs.readdir(resultsFolder, (err, files) => {
+    fs.readdir(resultsFolder, (err: any, files: any) => {
        if (err) throw err;
           for (const file of files) {
-             fs.unlink(path.join(resultsFolder, file), err => {
+             fs.unlink(path.join(resultsFolder, file), (err: any) => {
                if (err) throw err;
               });
           }
