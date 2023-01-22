@@ -1,5 +1,5 @@
 const express = require('express');
-import http from 'http';
+const http = require('http');
 import bodyParser, { json } from 'body-parser';
 import multer from "multer";
 import fs from 'fs';
