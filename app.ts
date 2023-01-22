@@ -39,24 +39,10 @@ app.post('/images',upload.single("image"), (req,res)=>{
     const imageFiles = fs.readdirSync(imagesFolder).filter(file => file.endsWith('.jpg'));
     
     if(imageFiles.length==obj.limit as number) {
-        service.process().then(()=>{
+        service.process("script.py").then(()=>{
             console.log("finished");
         });
     }
-
-    /*
-    let imagemap=Object.entries(req.body); 
-    imagemap.forEach((pair)=>{
-        console.log(pair[0]);
-        let timestamp = Date.now();
-        const binaryData = Buffer.from(pair[1] as any, 'base64');
-        console.log(binaryData)
-        fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
-    }) 
-    /*
-    service.process().then(()=>{
-        
-    });*/
 
     const jsonObj={
         "id":"78giug87t56ertfhg",
