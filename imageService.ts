@@ -1,8 +1,17 @@
 import { spawn } from 'child_process';
+const fs = require('fs');
 
 class imageService {
     constructor() {
-
+        const folderPath = 'images';
+        const resultsPath = 'results';
+        if (!fs.existsSync(folderPath)) {
+           fs.mkdirSync(folderPath);
+        }
+        if (!fs.existsSync(resultsPath)) {
+            fs.mkdirSync(resultsPath);
+        }
+        
     } 
 
    async process(scriptPath: string) {

@@ -31,6 +31,7 @@ app.post('/images',upload.single("image"), async (req: { body: { data: string; i
     console.log("RECEIVED");
     let obj=JSON.parse(req.body.data);
     console.log(obj.limit);
+
     let timestamp = Date.now();
     const binaryData = Buffer.from(req.body.image as any, 'base64');
     console.log(binaryData)
