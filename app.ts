@@ -31,11 +31,11 @@ app.post('/images',upload.single("image"), async (req: { body: { data: string; i
     console.log("RECEIVED");
     let obj=JSON.parse(req.body.data);
     console.log(obj.limit);
+    console.log(obj.i);
 
-    let timestamp = Date.now();
     const binaryData = Buffer.from(req.body.image as any, 'base64');
     console.log(binaryData)
-    fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
+    fs.writeFileSync(`images/image-${obj.i as string}.jpg`, binaryData);
 
     const imagesFolder = 'images/';
     const imageFiles = fs.readdirSync(imagesFolder).filter((file: string) => file.endsWith('.jpg'));

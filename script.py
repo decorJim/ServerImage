@@ -7,8 +7,7 @@ from PIL import Image
 # Get the 8 most recent images in the downloads folder
 downloads_folder = 'images/'
 image_files = [f for f in os.listdir(downloads_folder) if f.endswith('.jpg')]
-image_files.sort(key=lambda x: os.path.getctime(os.path.join(downloads_folder, x)))
-
+image_files = sorted(image_files, key=lambda x: int(x.split("-")[1].split(".")[0]))
 # change the number to match the count of all pairs
 recent_images = image_files[-len(image_files):]
 
