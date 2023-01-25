@@ -1,7 +1,11 @@
 import { spawn } from 'child_process';
+import { uploadFile } from './firebase';
 const fs = require('fs');
 
 class imageService {
+    
+    images:Map<String,Buffer>=new Map<String,Buffer>();
+
     constructor() {
         const folderPath = 'images';
         const resultsPath = 'results';

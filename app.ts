@@ -3,6 +3,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const fs = require('fs');
+import { uploadFile } from "./firebase";
 import service from "./imageService";
 const path = require('path');
 
@@ -23,10 +24,11 @@ app.use(express.json({limit:"50mb"}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 const upload=multer({ 
-    dest:"images/",
+   // dest:"images/",
     limits:{fieldSize: 100 * 1024 * 1024},
 });
 
+  
 app.post('/images',upload.single("image"), async (req: { body: { data: string; image: any; }; },res: { json: (arg0: { id: string; msg: number; state: string; }) => any; })=>{
     console.log("RECEIVED");
     let obj=JSON.parse(req.body.data);
@@ -35,6 +37,7 @@ app.post('/images',upload.single("image"), async (req: { body: { data: string; i
 
     const binaryData = Buffer.from(req.body.image as any, 'base64');
     console.log(binaryData)
+    
     fs.writeFileSync(`images/image-${obj.i as string}.jpg`, binaryData);
 
     const imagesFolder = 'images/';
@@ -51,7 +54,7 @@ app.post('/images',upload.single("image"), async (req: { body: { data: string; i
     if(imageFiles.length==obj.limit as number) {
         service.process("script.py");
     }
-    return res.json(jsonObj)
+    return res.json(jsonObj) 
 })
 
 app.post('/image',upload.single("image"), async (req: { headers: any; body: { data: any; image: any; }; },res: any)=>{
@@ -105,10 +108,32 @@ app.post('/delete',(req: any,res: { json: (arg0: { msg: string; }) => void; })=>
     res.json(jsonObj);
 })
 
+
+app.post('/test',upload.single("image"), async (req: { body: { data: string; image: any[]; }; },res: { json: (arg0: { id: string; msg: number; state: string; }) => any; })=>{
+    console.log("RECEIVED");
+    let obj=JSON.parse(req.body.data);
+    console.log(obj.limit);
+    console.log(obj.i);
+
+    let folder:string="images";
+
+    let buffer = Buffer.from(req.body.image as any, 'base64')
+    
+    await uploadFile(obj.i as string,buffer,folder)
+    .then(async (res) => { 
+       console.log(res); 
+    })
+    .catch((err) => {
+       console.log(err)
+    }) 
+})
+
+
 const server = http.createServer(app);
 
 server.listen(process.env.PORT || 8080,()=>{
     console.log(`Server is running localhost:${app.get('PORT')}`);
 });
+
 
 
