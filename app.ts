@@ -24,7 +24,7 @@ app.use(express.json({limit:"50mb"}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 const upload=multer({ 
-   // dest:"images/",
+    dest:"images/",
     limits:{fieldSize: 100 * 1024 * 1024},
 });
 
@@ -43,7 +43,7 @@ app.post('/images',upload.single("image"), async (req: { body: { data: string; i
     const imagesFolder = 'images/';
     const imageFiles = fs.readdirSync(imagesFolder).filter((file: string) => file.endsWith('.jpg'));
     
-    let num:number=imageFiles.length;
+    let num:number=imageFiles.length as number;
 
     const jsonObj={
         "id":"78giug87t56ertfhg",
@@ -51,7 +51,7 @@ app.post('/images',upload.single("image"), async (req: { body: { data: string; i
         "state":"ongoing"
     }
 
-    if(imageFiles.length==obj.limit as number) {
+    if(imageFiles.length as number==obj.limit as number) {
         service.process("script.py");
     }
     return res.json(jsonObj) 

@@ -14,7 +14,7 @@ const firebaseApp = initializeApp({
 export const uploadFile = async (i: string, buffer: any, folder: string) => {
 
     const storage = getStorage(firebaseApp);
-    const storageRef = ref(storage,folder+"/"+ i + ".jpg");
+    const storageRef = ref(storage,folder+"/image-"+ i + ".jpg");
 
     const metadata = {
         contentType: 'image/jpeg',
@@ -23,7 +23,7 @@ export const uploadFile = async (i: string, buffer: any, folder: string) => {
 
     return await uploadBytes(storageRef, buffer, metadata)
     .then((snapshot: any) => {
-        return "https://firebasestorage.googleapis.com/v0/b/log3900-102.appspot.com/o/" + folder + "/" + i + ".jpg";
+        return "https://firebasestorage.googleapis.com/v0/b/log3900-102.appspot.com/o/" + folder + "/image-" + i + ".jpg";
     }).catch((err: any) => {
         return err;
     });
