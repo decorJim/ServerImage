@@ -1,8 +1,11 @@
 import { spawn } from 'child_process';
-import { uploadFile } from './firebase';
 const fs = require('fs');
+const execFile = require('child_process').execFile;
 
 class imageService {
+    processImage(arg0: string) {
+        throw new Error("Method not implemented.");
+    }
     
     images:Map<String,Buffer>=new Map<String,Buffer>();
 
@@ -38,6 +41,26 @@ class imageService {
     pythonProcess.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
     });
+   }
+
+   async processImages(scriptPath: string,imageBuffers:Buffer[]) {
+      for (let i = 0; i < imageBuffers.length; i += 2) {
+        let img1 = imageBuffers[i];
+        let img2 = imageBuffers[i + 1];
+        if(!img2) img2 = img1;
+    
+        // Pass the two images as arguments to the Python script
+        let args = [scriptPath, img1, img2];
+    
+        execFile('python3', args, (error: any, stdout: any, stderr: any) => {
+          if (error) {
+            //console.error(`error: ${error}`);
+            return;
+          }
+          console.log(`stdout: ${stdout}`);
+          console.log(`stderr: ${stderr}`);
+        });
+      }
    }
 
 }

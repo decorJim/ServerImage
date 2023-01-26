@@ -3,7 +3,8 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const fs = require('fs');
-import { uploadFile } from "./firebase";
+import { Request, Response } from "express";
+import { uploadFile, uploadFiles } from "./firebase";
 import service from "./imageService";
 const path = require('path');
 
@@ -24,7 +25,7 @@ app.use(express.json({limit:"50mb"}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 const upload=multer({ 
-    dest:"images/",
+    //dest:"images/",
     limits:{fieldSize: 100 * 1024 * 1024},
 });
 
@@ -127,6 +128,54 @@ app.post('/test',upload.single("image"), async (req: { body: { data: string; ima
        console.log(err)
     }) 
 })
+
+
+app.post('/testarray',upload.array("images"), async (req:Request,res:Response)=>{
+    console.log("RECEIVED");
+    let obj=JSON.parse(req.body.data);
+    console.log(obj.limit);
+    
+    let images=obj.images as any[]
+
+    const imagesBuffers = images.map((img: any) => {
+        return Buffer.from(img, 'base64');
+    });
+
+    let count:number=0
+    imagesBuffers.forEach((image)=>{
+        fs.writeFileSync(`images/image-${count}.jpg`, image);
+        count++;
+    })
+    
+    
+    service.process("script.py");
+
+    const jsonObj={
+        "id":"78giug87t56ertfhg",
+        "msg":imagesBuffers.length,
+        "state":"ongoing"
+    }
+    
+    return res.json(jsonObj) 
+       
+    /*
+    await uploadFiles(imagesBuffers,folder)
+       .then(async (imageUrls) => { 
+          console.log(imageUrls); 
+          const jsonObj={
+            "id":imageUrls,
+            "msg":imagesBuffers.length,
+            "state":"finished"
+          }
+          return res.json(jsonObj);
+       })
+       .catch((err) => {
+          console.log(err)
+       }) 
+    */
+
+})
+
 
 
 const server = http.createServer(app);

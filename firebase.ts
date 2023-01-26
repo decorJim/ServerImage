@@ -30,3 +30,24 @@ export const uploadFile = async (i: string, buffer: any, folder: string) => {
    
 
 }
+
+export const uploadFiles = async (images: any[], folder: string) => {
+    const storage = getStorage(firebaseApp);
+    let imageUrls: string[] = [];
+    for (let i = 0; i < images.length; i++) {
+        const buffer = images[i].buffer;
+        const storageRef = ref(storage,folder+"/image-"+ i + ".jpg");
+        const metadata = {
+            contentType: 'image/jpeg',
+            cacheControl: 'public, max-age=31536000',
+        };
+        const url = await uploadBytes(storageRef, buffer, metadata)
+        .then((snapshot: any) => {
+            return "https://firebasestorage.googleapis.com/v0/b/imagedb.appspot.com/o/" + folder + "/image-" + i + ".jpg";
+        }).catch((err: any) => {
+            return err;
+        });
+        imageUrls.push(url);
+    }
+    return imageUrls;
+}
