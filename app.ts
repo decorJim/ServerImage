@@ -29,6 +29,10 @@ const upload=multer({
     limits:{fieldSize: 100 * 1024 * 1024},
 });
 
+app.get('/data', (req: any, res: { sendFile: (arg0: any) => void; }) => {
+    res.sendFile(path.join(__dirname, 'price', 'beer.json'));
+});
+
   
 app.post('/images',upload.single("image"), async (req: { body: { data: string; image: any; }; },res: { json: (arg0: { id: string; msg: number; state: string; }) => any; })=>{
     console.log("RECEIVED");
