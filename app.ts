@@ -62,14 +62,12 @@ app.post('/images',upload.single("image"), async (req: { body: { data: string; i
     return res.json(jsonObj) 
 })
 
-app.post('/image',upload.array("images"), async (req: { files: any; headers: any; body: { images: any; }; },res: any)=>{
-    for (let i = 0; i < req.body.images.length; i++) {
-        let timestamp = Date.now();
-        const dataUrl = req.body.images[i] as any;
-        const binaryData = Buffer.from(dataUrl.split(",")[1], 'base64');
-        console.log("HERE",binaryData)
-        fs.writeFileSync(`images/image-${timestamp}.jpg`, binaryData);
-    }
+app.post('/image',upload.array("images"), async (req: { files: any; headers: any; body: { image: any; index:number }; },res: any)=>{
+    const dataUrl=req.body.image;
+    const index=req.body.index;
+    const binaryData=Buffer.from(dataUrl.split(",")[1],'base64');
+    console.log(binaryData);
+    fs.writeFileSync(`images/image-${index}.jpg`,binaryData);
     return res.json("oasi")
 })
 
