@@ -43,6 +43,7 @@ check with command "python3 --version" if python interpreter is the same version
 
 # run app as background process
 - npm install pm2 -g
+- pm2 startup
 - pm2 start app.ts
 - pm2 status
 
@@ -54,6 +55,10 @@ check with command "python3 --version" if python interpreter is the same version
 
 # save current state of application
 - pm2 save
+
+
+# debug 
+- pm2 logs
 
 
 
