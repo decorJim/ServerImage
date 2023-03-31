@@ -12,6 +12,10 @@ COPY . .
 
 RUN npm install
 
+# tells container to listen to port 80
+
+EXPOSE 80
+
 CMD ["npm","run","start"]
 
 
