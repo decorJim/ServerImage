@@ -64,7 +64,7 @@ app.post('/images',upload.single("image"), async (req: { body: { data: string; i
 
 app.post('/image',upload.array("images"), async (req: { files: any; headers: any; body: { image: any; index:number; limit:number }; },res: any)=>{
     const dataUrl=req.body.image;
-    const index=req.body.index;
+    const index=req.body.index as number;
     const binaryData=Buffer.from(dataUrl.split(",")[1],'base64');
     console.log(binaryData);
     fs.writeFileSync(`images/image-${index}.jpg`,binaryData);
@@ -73,7 +73,10 @@ app.post('/image',upload.array("images"), async (req: { files: any; headers: any
     if(imageFiles.length as number==req.body.limit) {
         service.process("script.py");
     }
-    return res.json("oasi")
+    const jsonObj={  
+        "msg":index
+    }
+    return res.json(jsonObj)
 })
 
 app.get('/results',(req: any,res: { send: (arg0: string[]) => void; })=>{
