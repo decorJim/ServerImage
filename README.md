@@ -11,6 +11,17 @@ to run python script
 check python version if 3 then spawn first argument is python3 in imageService process function
 check with command "python3 --version" if python interpreter is the same version as the result as vscode interpreter then it is fine 
 
+# Docker
+- install docker desktop 
+- https://www.youtube.com/watch?v=dYiPms0xnIE
+- After Exploit protection step
+- go to system variable and add to PATH "C:\Windows\System32\"
+- open a terminal as administrator
+- run command "net start vmcompute"
+- run command "wsl --set-default-version 2"
+
+
+
 
 # deployments EC2
 # download node version manager

@@ -22,7 +22,8 @@ class imageService {
     } 
 
    async process(scriptPath: string) {
-    const pythonProcess = spawn('python3', [scriptPath]);
+    // NOTICE DEPENDING ON PYTHON COMMAND ON YOUR PC, MIGHT HAVE TO CHANGE TO python3
+    const pythonProcess = spawn('python', [scriptPath]);
 
     // Log any output from the Python script
     pythonProcess.stdout.on('data', (data) => {
