@@ -11,7 +11,7 @@ const path = require('path');
 
 const app=express();
 
-app.set('PORT',process.env.PORT || 8080);
+app.set('PORT',process.env.PORT || 80);
 
 app.use((req: any, res: { header: (arg0: string, arg1: string) => void; }, next: () => void) => {   // must be here to make http request work without access problems
     res.header('Access-Control-Allow-Origin', '*');
@@ -191,7 +191,7 @@ app.post('/testarray',upload.array("images"), async (req:Request,res:Response)=>
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT || 8080,()=>{
+server.listen(process.env.PORT || 80,()=>{
     console.log(`Server is running localhost:${app.get('PORT')}`);
 });
 
