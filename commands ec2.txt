@@ -1,0 +1,12 @@
+sudo yum update
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum install -y docker
+sudo service docker start
+sudo docker info
+sudo docker pull decorjim/serverimage-docker
+sudo docker images
+sudo docker run -d -p 80:80 decorjim/serverimage-docker  # runs container in background so it doesnt stop after signing out 
+sudo docker ps  # check running containers
+sudo docker stop containerId
+sudo docker logs containerId
+sudo docker rmi -f imageId # force delete image

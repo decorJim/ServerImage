@@ -24,6 +24,7 @@ check with command "python3 --version" if python interpreter is the same version
 
 
 # deployments EC2
+# make sure HTTP is allowed on instance else app test will not work
 # download node version manager
 - connect as root user using "sudo su -"
 - use command "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash"

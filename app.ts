@@ -13,6 +13,8 @@ const app=express();
 
 app.set('PORT',process.env.PORT || 80);
 
+process.env.IP='52.60.42.240';
+
 app.use((req: any, res: { header: (arg0: string, arg1: string) => void; }, next: () => void) => {   // must be here to make http request work without access problems
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
@@ -31,6 +33,10 @@ const upload=multer({
 
 app.get('/data', (req: any, res: { sendFile: (arg0: any) => void; }) => {
     res.sendFile(path.join(__dirname, 'price', 'beer.json'));
+});
+
+app.get('/ping',(req: any, res: any) => {
+    res.send("ABC WORKING");
 });
 
   
@@ -192,7 +198,7 @@ app.post('/testarray',upload.array("images"), async (req:Request,res:Response)=>
 const server = http.createServer(app);
 
 server.listen(process.env.PORT || 80,()=>{
-    console.log(`Server is running localhost:${app.get('PORT')}`);
+    console.log(`Server is running ${process.env.IP || 'localhost'}:${app.get('PORT')}`);
 });
 
 
