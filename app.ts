@@ -13,8 +13,6 @@ const app=express();
 
 app.set('PORT',process.env.PORT || 80);
 
-process.env.IP='52.60.42.240';
-
 app.use((req: any, res: { header: (arg0: string, arg1: string) => void; }, next: () => void) => {   // must be here to make http request work without access problems
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
