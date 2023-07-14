@@ -3,19 +3,25 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const fs = require('fs');
+const cors = require('cors');
+
 import { Request, Response } from "express";
 import { uploadFile, uploadFiles } from "./firebase";
 import service from "./imageService";
+
 const path = require('path');
 
 
 const app=express();
+app.use(cors());
 
 app.set('PORT',process.env.PORT || 80);
 
 app.use((req: any, res: { header: (arg0: string, arg1: string) => void; }, next: () => void) => {   // must be here to make http request work without access problems
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
 
