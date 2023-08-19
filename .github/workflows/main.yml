@@ -26,8 +26,8 @@ jobs:
         - name: delete old container
           run: sudo docker rm -f serverimage-docker-container
         - name: run docker container
-          run: -d -p 80:80 decorjim/serverimage-docker -name serverimage-docker-container decorjim/serverimage-docker
-          
+          run: sudo docker run -d -p 80:80 decorjim/serverimage-docker -name serverimage-docker-container decorjim/serverimage-docker
+
 
 
        
