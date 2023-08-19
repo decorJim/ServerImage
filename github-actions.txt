@@ -16,6 +16,6 @@
 - ./config.sh --url https://github.com/decorJim/ServerImage --token AO52Q75EIY4FPDM7BEHPHTLE4E6KK
 - ./run.sh
 - runs-on: self-hosted
-- follow video for details: 
+- follow video for details: https://www.youtube.com/watch?v=OeLnEB9FDpw&t=1078s&ab_channel=IntegrationNinjas
 - runner should have green status
 
