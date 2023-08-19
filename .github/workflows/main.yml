@@ -1,0 +1,23 @@
+name: CICD
+
+on:
+  push:                                           # on what event is it triggered
+     branches: [main]                             # what branche to monitor
+
+jobs:
+  build:
+     runs-on: [ubuntu-latest]                     # what os is the server using to run this job
+     steps:                                       # define steps for the build job
+       - name: Checkout source
+         uses: actions/checkout@v3
+       - name: login to dockerhub
+         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     # will extract value from github secrets
+       - name: build docker image
+         run: docker build -t decorjim/serverimage-docker .
+       - name: publish image to dockerhub
+         run: docker push decorjim/serverimage-docker
+
+  deploy:
+     needs: build
+
+       
