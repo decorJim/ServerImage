@@ -22,11 +22,11 @@ jobs:
      runs-on: [aws-ec2]
      steps:
        - name: pull image from docker hub
-         run: docker pull decorjim/serverimage-docker
+         run: sudo docker pull decorjim/serverimage-docker
        - name: delete old container
-         run: docker rm -f serverimage-docker-container
+         run: sudo docker rm -f serverimage-docker-container
        - name: run docker container
-         run: docker run -d -p 80:80 decorjim/serverimage-docker -name serverimage-docker-container decorjim/serverimage-docker
+         run: sudo docker run -d -p 80:80 decorjim/serverimage-docker --name serverimage-docker-container decorjim/serverimage-docker
 
 
 
