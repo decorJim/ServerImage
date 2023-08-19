@@ -1,0 +1,21 @@
+- Setting/Secrets and Variable
+- add new repository named DOCKER_USERNAME with the actual value
+- add new repository named DOCKER_PASSWORD with the actual value
+- in the script add line docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+- Setting/Actions/Runners
+- Create self-hosted runner
+- Runner image: Linux
+- Architecture: x64
+- Sign in ec2 instance
+- paste commands:
+- mkdir actions-runner && cd actions-runner
+- curl -o actions-runner-linux-x64-2.308.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.308.0/actions-runner-linux-x64-2.308.0.tar.gz
+- tar xzf ./actions-runner-linux-x64-2.308.0.tar.gz
+- POSSIBLE LIBICU ERROR BEFORE NEXT COMMAND RUN "sudo yum install libicu"
+- ./config.sh --url https://github.com/decorJim/ServerImage --token AO52Q75EIY4FPDM7BEHPHTLE4E6KK
+- ./run.sh
+- runs-on: self-hosted
+- follow video for details: 
+- runner should have green status
+
